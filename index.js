@@ -29,6 +29,14 @@ async function run() {
     const coffeeCollection = client.db('coffeeDB').collection('coffeeCollection');
 
 
+    app.get('/coffees', async (req, res) => {
+      const cursor = coffeeCollection.find();
+      // console.log(cursor);
+      const result = await cursor.toArray();
+      // console.log(result);
+      res.send(result);
+    })
+
 
     app.post('/coffees', async (req, res) => {
       const newCoffee = req.body;
