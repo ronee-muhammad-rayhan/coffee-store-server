@@ -88,13 +88,30 @@ async function run() {
     app.get('/users', async (req, res) => {
       const cursor = userCollection.find({});
       const result = await cursor.toArray();
-      res.status('200').send(result);
+      res.status(200).send(result);
     })
 
     app.post('/users', async (req, res) => {
       const user = req.body
       console.log(user);
       const result = await userCollection.insertOne(user)
+      res.send(result)
+    })
+
+    app.patch('/users', async (req, res) => {
+      const user = req.body
+      console.log(user);
+      const filter = { email: user.email }
+      const updatedDoc = {
+        $set: {
+          lastLoggedAt: user.lastLoggedAt
+        }
+      }
+      console.log(updatedDoc);
+      console.log(filter);
+      // console.log(userCollection);
+      const result = await userCollection.updateOne(filter, updatedDoc)
+      console.log(result);
       res.send(result)
     })
 
